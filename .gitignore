@@ -1,0 +1,6 @@
+.ipynb_checkpoints
+*.h5
+models
+*.swp
+.DS_Store
+data/*
