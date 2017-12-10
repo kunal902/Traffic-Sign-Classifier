@@ -143,6 +143,6 @@ The model was able to correctly guess 4 out of the 5 traffic signs, which gives 
 | 1.00				    | No Entry      							    |
 
 
-For the second image the softmax probability was very high which is a wrong prediction. 
+For the second image the softmax probability is very high which is a wrong prediction. 
 
 
