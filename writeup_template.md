@@ -109,48 +109,40 @@ To make predictions on new images I downloaded five German traffic signs from in
 
 ### Test a Model on New Images
 
-#### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
-
 Here are five German traffic signs that I found on the web:
 
-![](./examples/test_set0.png) ![](./examples/test_set1.png) ![](./examples/test_set2.png) 
-![](./examples/test_set3.png) ![](./examples/test_set4.png)
+![](./examples/test_set0.png) 
+![](./examples/test_set1.png)
+![](./examples/test_set2.png) 
+![](./examples/test_set3.png) 
+![](./examples/test_set4.png)
 
-The first image might be difficult to classify because ...
+The model generally correctly identifies all the test data set except the caution one i.e. second test image and is confused with keep right traffic signal which is kind of strange. I think this may happen because the test image is blurry and not centered. Also the fourth test image which is speed limit 30 kmph may be misclassified as speed limit 70 kmph as when you resize the image and if the traffic sign is not centered in the image 30 can be misread as 70 or vice versa. 
 
-#### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
-
-Here are the results of the prediction:
+#### Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Children Crossing    	| Children Crossing   							| 
+| Caution     			| Keep Right 									|
+| Road Work				| Road Work										|
+| Spped limit(30 kmph)	| Spped limit(30 kmph)					 		|
+| No Entry			    | No Entry      							    |
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 4 out of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of 94.6% because the test set has 12630 samples.
 
-#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
-
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
-
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+#### The top five soft max probabilities were
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| .99         			| Children Crossing   							| 
+| .99     				| Keep Right 									|
+| 1.00					| Road Work										|
+| .52	      			| Spped limit(30 kmph)					 		|
+| 1.00				    | No Entry      							    |
 
 
-For the second image ... 
-
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+For the second image the softmax probability was very high which is a wrong prediction. 
 
 
