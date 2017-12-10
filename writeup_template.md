@@ -37,7 +37,7 @@ Number of classes = 43
 The exploratory visualization of the data set contains the bar chart showing the count of each type of classes(traffic signs) in the training, validation and test set. I have also plotted a single traffic sign image of each class using matplotlib.
 
 #### Bar chart showing the distribution of training set
-[image1]: ./examples/bar_graph_train.png "Training Set"
+![](./examples/bar_graph_train.png)
 
 #### Bar chart showing the distribution of validation set
 [image2]: ./examples/bar_graph_valid.png "Validation Set"
