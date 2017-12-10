@@ -1,126 +1,109 @@
-# **Traffic Sign Recognition** 
+# **German Traffic Sign Recognition** 
 
-## Writeup
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
----
-
-**Build a Traffic Sign Recognition Project**
+This ia a German traffic sign recognition project built using convolutional neural network(Lenet-5)
 
 The goals / steps of this project are the following:
-* Load the data set (see below for links to the project data set)
+* Load the data set
 * Explore, summarize and visualize the data set
 * Design, train and test a model architecture
 * Use the model to make predictions on new images
 * Analyze the softmax probabilities of the new images
 * Summarize the results with a written report
 
+### Load the Data Set
+Download the [dataset](https://d17h27t6h515a5.cloudfront.net/topher/2017/February/5898cd6f_traffic-signs-data/traffic-signs-data.zip)
+```
+$ wget https://d17h27t6h515a5.cloudfront.net/topher/2017/February/5898cd6f_traffic-signs-data/traffic-signs-data.zip
+```
 
-[//]: # (Image References)
+### Explore, Summarize and Visualize the Data Set
+This is a pickled dataset in which images are already resized to 32x32 and contains training, test and validation data set. The zip file also contains a CSV file (signnames.csv) in which the first column contains the class Id(an integer ranging from 0-42 also seen as number of classes) and the second column contains the description of the classIds. Below are the first three rows from CSV file
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+| ClassId| SignName    |
+| :-----:|-------------|
+| 0      | Speed limit (20km/h) |
+| 1      | Speed limit (30km/h) |
+| 2      | Speed limit (50km/h) |
 
-## Rubric Points
-### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
+Below is a brief summary of the data set which is done using numpy
+```
+Number of training examples = 34799
+Number of validation examples = 4410
+Number of testing examples = 12630
+Image data shape = (32, 32, 3)
+Number of classes = 43
+```
 
----
-### Writeup / README
+The exploratory visualization of the data set contains the bar chart showing the count of each type of classes(traffic signs) in the training, validation and test set. I have also plotted a single traffic sign image of each class using matplotlib.
 
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
+#### Bar chart showing the distribution of training set
+[image1]: ./examples/bar_graph_train.png "Training Set"
 
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+#### Bar chart showing the distribution of validation set
+[image2]: ./examples/bar_graph_valid.png "Validation Set"
 
-### Data Set Summary & Exploration
+#### Bar chart showing the distribution of test set
+[image3]: ./examples/bar_graph_test.png "Test Set"
 
-#### 1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
+### Design, Train and Test a model architecture
 
-I used the pandas library to calculate summary statistics of the traffic
-signs data set:
+#### Preprocessing
+As a first step I decided to convert the images to grayscale as I am using Lenet-5 neural network for training which works well with the gray scale images also there is limited color info in the traffic signs so I thought may be the structure of the signs will be sufficient and it will reduce the complexity of the model also.
 
-* The size of training set is ?
-* The size of the validation set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
+#### Initial color image
+[image3]: ./examples/initial.png "Initial Image"
 
-#### 2. Include an exploratory visualization of the dataset.
+#### Grayscale Image
+[image3]: ./examples/grayscale.png "GrayScale Image"
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Next, I performed min-max normalization to rescale the pixels to the 0-1 floating-point range so that there is not too much higher values while training the model as higher values may causes some problems in the convergence of the gradient descent optimizer and may take longer
 
-![alt text][image1]
+As a last step, I standardized the data using Z-score normalization with 0 mean and unit variance.
 
-### Design and Test a Model Architecture
-
-#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
-
-As a first step, I decided to convert the images to grayscale because ...
-
-Here is an example of a traffic sign image before and after grayscaling.
-
-![alt text][image2]
-
-As a last step, I normalized the image data because ...
-
-I decided to generate additional data because ... 
-
-To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
-
-
-#### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
-
+#### Model Architecture Design
 My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| Input         		| 32x32x1 Grayscale image   					| 
+| Convolution 5x5     	| 1x1 stride, VALID padding, outputs 28x28x6 	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
- 
+| Max pooling	      	| 2x2 stride, VALID padding, outputs 14x14x6 	|
+| Convolution 5x5	    | 1x1 stride, VALID padding, outputs 10x10x16.  |
+| RELU		            |         									    |
+| Max pooling		    | 2x2 stride, VALID padding, outputs 5x5x16     |
+| Fully connected		| Input = 400, Output = 120						|
+| RELU					|												|
+| Dropout				| Keep Prob of 0.8								|
+| Fully connected		| Input = 120, Output = 84						|
+| RELU					|												|
+| Dropout				| Keep Prob of 0.8								|
+| Fully connected		| Input = 84, Output = 43						|
 
+#### Training
+To train the model, I used the model architecture described above. The hyperparameters used in the training is described below:
+```
+EPOCHS = 200
+BATCH_SIZE = 128
+rate = 0.001
+mu = 0
+sigma = 0.1
+```
+I used the SGD(stochastic gradient descent) approach for optimizing the network with a batch size of 128 and a learning rate of 0.001. While training I used a more sophisticated optimizer called Adam Optimizer. The weights and biases of the network are normally initialized with a mean of 0 and a variance of 0.1. The classes/labels are one hot encoded. And in the output Softmax function is applied as probabilities are easier otherwise the output value may be too high or too low. 
+To achieve the desired accuracy I increased the number of epochs in the model architecture as Lenet-5 is good for classification where number of claases are less but in this case number of classes is more so instead of adding more layers into the network I increased the epochs, added regularization using dropout with keep probability of 0.8 to avoid overfitting in the fully connected layers, preprocess the data set.
 
-#### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
-
-To train the model, I used an ....
-
-#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
-
+#### Testing
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+```
+Training accuracy = 1.000
+Validation accuracy = 0.962
+Test accuracy = 0.946
+```
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+In this project, I choose Lenet-5 as my model architecture with some modifications of my own as I think current architecture is suitable for my problem statement. As the traffic signs doesn't have very complicated shapes, structures or figures a simple neural network such as Lenet-5 with slight modification is a good to go network which is clearly evident from validation set accuracy. The test set accuracy is not very high which can be further improved by adding more layers in the network but for this problem statement I think this is a good starting point. A higher validation accuracy is an indicator that the model is not overfitted and can make predictions well.
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+
+### Use the model to make predictions on new images
 
 ### Test a Model on New Images
 
