@@ -40,10 +40,10 @@ The exploratory visualization of the data set contains the bar chart showing the
 ![](./examples/bar_graph_train.png)
 
 #### Bar chart showing the distribution of validation set
-[image2]: ./examples/bar_graph_valid.png "Validation Set"
+![](./examples/bar_graph_valid.png)
 
 #### Bar chart showing the distribution of test set
-[image3]: ./examples/bar_graph_test.png "Test Set"
+![](./examples/bar_graph_test.png)
 
 ### Design, Train and Test a model architecture
 
@@ -51,10 +51,10 @@ The exploratory visualization of the data set contains the bar chart showing the
 As a first step I decided to convert the images to grayscale as I am using Lenet-5 neural network for training which works well with the gray scale images also there is limited color info in the traffic signs so I thought may be the structure of the signs will be sufficient and it will reduce the complexity of the model also.
 
 #### Initial color image
-[image3]: ./examples/initial.png "Initial Image"
+![](./examples/initial.png)
 
 #### Grayscale Image
-[image3]: ./examples/grayscale.png "GrayScale Image"
+![](./examples/grayscale.png)
 
 Next, I performed min-max normalization to rescale the pixels to the 0-1 floating-point range so that there is not too much higher values while training the model as higher values may causes some problems in the convergence of the gradient descent optimizer and may take longer
 
@@ -103,7 +103,9 @@ Test accuracy = 0.946
 In this project, I choose Lenet-5 as my model architecture with some modifications of my own as I think current architecture is suitable for my problem statement. As the traffic signs doesn't have very complicated shapes, structures or figures a simple neural network such as Lenet-5 with slight modification is a good to go network which is clearly evident from validation set accuracy. The test set accuracy is not very high which can be further improved by adding more layers in the network but for this problem statement I think this is a good starting point. A higher validation accuracy is an indicator that the model is not overfitted and can make predictions well.
 
 
-### Use the model to make predictions on new images
+### Use the model to make predictions on New Images
+To make predictions on new images I downloaded five German traffic signs from internet which are enclosed below
+
 
 ### Test a Model on New Images
 
