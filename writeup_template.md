@@ -38,14 +38,14 @@ The exploratory visualization of the data set contains the bar chart showing the
 
 ### Design, Train and Test a model architecture
 
-##Preprocessing
+#### Preprocessing
 As a first step I decided to convert the images to grayscale as I am using Lenet-5 neural network for training which works well with the gray scale images also there is limited color info in the traffic signs so I thought may be the structure of the signs will be sufficient and it will reduce the complexity of the model also.
 
 Next, I performed min-max normalization to rescale the pixels to the 0-1 floating-point range so that there is not too much higher values while training the model as higher values may causes some problems in the convergence of the gradient descent optimizer and may take longer
 
 As a last step, I standardized the data using Z-score normalization with 0 mean and unit variance.
 
-##Model Architecture Design
+#### Model Architecture Design
 My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
@@ -65,7 +65,7 @@ My final model consisted of the following layers:
 | Dropout				| Keep Prob of 0.8								|
 | Fully connected		| Input = 84, Output = 43						|
 
-##Training
+#### Training
 To train the model, I used the model architecture described above. The hyperparameters used in the training is described below:
 ```
 EPOCHS = 200
@@ -77,7 +77,7 @@ sigma = 0.1
 I used the SGD(stochastic gradient descent) approach for optimizing the network with a batch size of 128 and a learning rate of 0.001. While training I used a more sophisticated optimizer called Adam Optimizer. The weights and biases of the network are normally initialized with a mean of 0 and a variance of 0.1. The classes/labels are one hot encoded. And in the output Softmax function is applied as probabilities are easier otherwise the output value may be too high or too low. 
 To achieve the desired accuracy I increased the number of epochs in the model architecture as Lenet-5 is good for classification where number of claases are less but in this case number of classes is more so instead of adding more layers into the network I increased the epochs, added regularization using dropout with keep probability of 0.8 to avoid overfitting in the fully connected layers, preprocess the data set.
 
-##Testing
+#### Testing
 My final model results were:
 ```
 Training accuracy = 1.000
